@@ -25,7 +25,8 @@ from accountOperations.views import checkifLogged, loginUser, returnUserInformat
 from accountOperations.views import register
 from documents.views import getListOfDocuments, getListOfTags, search, createDocument, createTags, deleteTag, \
     deleteDocument, getInformationOfDocumentByID, downloadFile, getProductsInfo
-from family.views import createFamily
+from family.views import createFamily, getProductsInfoByFamily, getListOfFamilyDocuments, returnBudgetOfFamily, \
+    budgetFamilyEdit
 from tariff.views import tariffs, deleteTariff, createTariff
 
 urlpatterns = [
@@ -66,6 +67,10 @@ urlpatterns = [
 
 
     path('createFamily', createFamily, name='createFamily'),
+    path('getProductsInfoByFamily', getProductsInfoByFamily, name='getProductsInfoByFamily'),
+    path('getListOfFamilyDocuments', getListOfFamilyDocuments, name='getListOfFamilyDocuments'),
+    path('returnBudgetOfFamily', returnBudgetOfFamily, name='returnBudgetOfFamily'),
+    path('budgetFamilyEdit', budgetFamilyEdit, name='budgetFamilyEdit'),
 ]
 urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

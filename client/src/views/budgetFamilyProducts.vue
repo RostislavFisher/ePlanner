@@ -64,7 +64,11 @@ export default {
   },
   methods: {
     getDataforChart(){
-      axios.post('getProductsInfo').then((response) => {
+      axios.get('getProductsInfoByFamily', {
+        params: {
+          familyID : this.$route.params.familyID
+        }
+      }).then((response) => {
         this.chartKeys = response.data["keys"];
         this.chartValue = response.data["values"];
 
@@ -73,23 +77,15 @@ export default {
       });
     },
     getListOfDocuments(){
-      axios.post('getListOfDocuments', {
+      axios.get('getListOfFamilyDocuments', {
         params: {
-          amountOfDocuments : 5
+          familyID : this.$route.params.familyID
         }
       }).then((response) => {
         this.listOfProducts = response.data["data"];
       });
 
     },
-    findDocumentByName () {
-      axios.post('search', {
-        params: {
-          search: this.search,
-        }}).then((response) => {
-        this.listOfProducts = response.data["data"];
-      });
-    }
   },
   components: {
     'my-chart': MyChart,

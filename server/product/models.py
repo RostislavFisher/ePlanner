@@ -1,7 +1,8 @@
 from django.db import models
 
-from documents.models import File, Tag
+from file.models import File
 from family.models import Family
+from tag.models import Tag
 
 
 class Product(models.Model):

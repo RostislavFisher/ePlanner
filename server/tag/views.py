@@ -1,10 +1,8 @@
-from datetime import datetime
-from django.http import JsonResponse, FileResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-from accountOperations.models import Profile
-from documents.models import Tag
-from errorPages.views import onlyForStaffChecker, onlyForLogginedChecker
+from errorPages.views import onlyForStaffChecker
+from tag.models import Tag
 
 
 @csrf_exempt
@@ -33,13 +31,3 @@ def getListOfTags(request):
     })
     response.status_code = 200
     return response
-
-
-@csrf_exempt
-@api_view(['GET', 'POST'])
-@onlyForLogginedChecker
-def downloadFile(request, path):
-    fileObject = open("media/" + path, 'rb')
-    response = FileResponse(fileObject)
-    return response
-

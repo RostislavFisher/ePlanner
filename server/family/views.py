@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from budget.models import budgetPlan
-from documents.models import Family
+from file.models import Family
 from errorPages.views import onlyForLogginedChecker
 from product.models import Product
 
@@ -11,7 +11,6 @@ from product.models import Product
 @onlyForLogginedChecker
 def createFamily(request):
     body = request.GET
-    print(body["Title"])
     try:
         Family.objects.create(title=body["Title"], budget=budgetPlan.objects.create()).users.add(request.user)
         response = JsonResponse({

@@ -6,9 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from accountOperations.models import Profile
-from documents.models import File, Tag
+from file.models import File
 from errorPages.views import onlyForLogginedChecker, onlyForStaffChecker
 from product.models import Product
+from tag.models import Tag
 
 
 @csrf_exempt

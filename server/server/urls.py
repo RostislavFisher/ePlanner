@@ -23,11 +23,12 @@ from budget.views import budgetEdit
 from accountOperations.views import checkifLogged, loginUser, returnUserInformation, logOut_view, \
      getUserListInformation, deleteAccount,  checkIfHasItExpired
 from accountOperations.views import register
-from documents.views import downloadFile, getListOfTags, createTags
+from file.views import downloadFile
 from family.views import createFamily, getProductsInfoByFamily, getListOfFamilyProducts, returnBudgetOfFamily, \
     budgetFamilyEdit
 from product.views import getInformationOfProductByID, createProduct, deleteProduct, getListOfProducts, search, \
     deleteTag, getProductsInfo
+from tag.views import getListOfTags, createTags
 from tariff.views import tariffs, deleteTariff, createTariff
 
 urlpatterns = [

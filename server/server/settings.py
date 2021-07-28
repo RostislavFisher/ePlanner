@@ -40,13 +40,13 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'tariff',
     'accountOperations',
-    'documents',
+    'file',
     'periodicTasks',
     'django_celery_beat',
     'budget',
     'product',
     'family',
-
+    'tag',
 ]
 
 MIDDLEWARE = [

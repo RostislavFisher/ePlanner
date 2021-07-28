@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     returnUserInfo(){
-      axios.get('returnUserInformation').then(result => {
+      axios.get('returnUserInfo').then(result => {
         this.families = result.data["families"]
         console.log(this.families)
       })

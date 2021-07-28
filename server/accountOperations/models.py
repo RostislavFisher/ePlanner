@@ -3,7 +3,6 @@ from django.db import models
 from budget.models import budgetPlan
 from product.models import Product
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     expire_date = models.DateField(null=True, blank=True)
@@ -16,5 +15,3 @@ class Profile(models.Model):
     def createCell(**kwargs):
         Profile(user=kwargs.get("user"), expire_date=kwargs.get("expire_date"),
                 firstConnection_date=kwargs.get("firstConnection_date"), budget=kwargs.get("budget")).save()
-
-

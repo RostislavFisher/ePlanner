@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
     <ul class="navbar-nav" style="  width: 100%;">
       <li class="nav-item active">
-        <router-link to="/" class="nav-link">ePlanner</router-link>
+        <router-link to="/" class="nav-link">ua_files</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/about/" class="nav-link">Информация</router-link>

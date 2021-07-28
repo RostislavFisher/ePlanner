@@ -73,7 +73,7 @@ export default {
   },
   methods: {
       getUserData(){
-        axios.post('returnUserInformation').then(result =>
+        axios.post('returnUserInfo').then(result =>
         {
             this.families = result.data["families"];
             this.budgetItems = result.data["budgetItems"];

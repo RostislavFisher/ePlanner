@@ -81,7 +81,7 @@ export default {
       });
     },
     getListOfDocuments(){
-      axios.post('getListOfDocuments', {
+      axios.post('getListOfProducts', {
         params: {
           amountOfDocuments : 5
         }

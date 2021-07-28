@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from budget.models import budgetPlan
-from documents.models import Product
+from product.models import Product
 
 
 class Profile(models.Model):

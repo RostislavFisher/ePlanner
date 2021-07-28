@@ -77,7 +77,7 @@ export default {
       });
     },
     getListOfDocuments(){
-      axios.get('getListOfFamilyDocuments', {
+      axios.get('getListOfFamilyProducts', {
         params: {
           familyID : this.$route.params.familyID
         }

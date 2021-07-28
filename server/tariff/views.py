@@ -47,7 +47,6 @@ def createTariff(request, *args):
 @api_view(['DELETE'])
 @onlyForStaffChecker
 def deleteTariff(request, id):
-    body = request.data["params"]
     Tariff.objects.get(id=id).delete()
     response = JsonResponse({
         "result": "OK"

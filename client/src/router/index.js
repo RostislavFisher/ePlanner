@@ -24,26 +24,6 @@ const routes = [
     component: About
   },
   {
-    path: '/Tariffs',
-    name: 'Tariffs',
-
-    component: () => import('../views/Tariffs.vue')
-  },
-  {
-    path: '/Project/:documentID',
-    name: 'Project',
-    props: true,
-
-    component: () => import('../views/Project.vue')
-  },
-  {
-    path: '/Tariff/:tariffID',
-    name: 'Tariff',
-    props: true,
-
-    component: () => import('../views/Tariff.vue')
-  },
-  {
     path: '/Account',
     name: 'Account',
 
@@ -65,7 +45,7 @@ const routes = [
     path: '/products',
     name: 'products',
 
-    component: () => import('../views/products.vue')
+    component: () => import('../views/budgetProducts.vue')
   },
   {
     path: '/budget',

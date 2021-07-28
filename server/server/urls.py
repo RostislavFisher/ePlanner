@@ -19,14 +19,15 @@ from django.urls import path, re_path
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
-from budget.views import budgetEdit, returnUserInfo, returnBudgetOfUser
+from budget.views import budgetEdit
 from accountOperations.views import checkifLogged, loginUser, returnUserInformation, logOut_view, \
      getUserListInformation, deleteAccount,  checkIfHasItExpired
 from accountOperations.views import register
-from documents.views import getListOfDocuments, getListOfTags, search, createDocument, createTags, deleteTag, \
-    deleteDocument, getInformationOfDocumentByID, downloadFile, getProductsInfo
-from family.views import createFamily, getProductsInfoByFamily, getListOfFamilyDocuments, returnBudgetOfFamily, \
+from documents.views import downloadFile, getListOfTags, createTags
+from family.views import createFamily, getProductsInfoByFamily, getListOfFamilyProducts, returnBudgetOfFamily, \
     budgetFamilyEdit
+from product.views import getInformationOfProductByID, createProduct, deleteProduct, getListOfProducts, search, \
+    deleteTag, getProductsInfo
 from tariff.views import tariffs, deleteTariff, createTariff
 
 urlpatterns = [
@@ -41,13 +42,14 @@ urlpatterns = [
     path('returnUserInformation', returnUserInformation, name='returnUserInformation'),
     path('checkIfHasItExpired', checkIfHasItExpired, name='checkIfHasItExpired'),
     path('deleteAccount', deleteAccount, name='deleteAccount'),
-    path('returnUserInfo', returnUserInfo, name='returnUserInfo'),
 
-    path('getInformationOfDocumentByID/<int:num>/', getInformationOfDocumentByID, name='getInformationOfDocumentByID'),
-    path('getListOfDocuments', getListOfDocuments, name='getListOfDocuments'),
-    path('createDocument', createDocument, name='createDocument'),
-    path('deleteDocument', deleteDocument, name='deleteDocument'),
+
+    path('getInformationOfProductByID/<int:num>/', getInformationOfProductByID, name='getInformationOfProductByID'),
+    path('getListOfProducts', getListOfProducts, name='getListOfProducts'),
+    path('createProduct', createProduct, name='createProduct'),
+    path('deleteProduct', deleteProduct, name='deleteProduct'),
     path('downloadFile/<path:path>', downloadFile, name='downloadFile'),
+
 
     path('getListOfTags', getListOfTags, name='getListOfTags'),
     path('search', search, name='search'),
@@ -56,7 +58,6 @@ urlpatterns = [
 
 
     path('budgetEdit', budgetEdit, name='budgetEdit'),
-    path('returnBudgetOfUser', returnBudgetOfUser, name='returnBudgetOfUser'),
     path('getProductsInfo', getProductsInfo, name='getProductsInfo'),
 
 
@@ -68,7 +69,7 @@ urlpatterns = [
 
     path('createFamily', createFamily, name='createFamily'),
     path('getProductsInfoByFamily', getProductsInfoByFamily, name='getProductsInfoByFamily'),
-    path('getListOfFamilyDocuments', getListOfFamilyDocuments, name='getListOfFamilyDocuments'),
+    path('getListOfFamilyProducts', getListOfFamilyProducts, name='getListOfFamilyProducts'),
     path('returnBudgetOfFamily', returnBudgetOfFamily, name='returnBudgetOfFamily'),
     path('budgetFamilyEdit', budgetFamilyEdit, name='budgetFamilyEdit'),
 ]

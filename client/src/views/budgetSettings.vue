@@ -1,11 +1,8 @@
-
 <template>
   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="row" style="text-align: left; margin-right: 0px; margin-left: 0px;">
     <div>
-
       <h1 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" >Планировка месячного бюджета</h1>
-
     </div>
   </div>
     <div>
@@ -13,9 +10,9 @@
     </div>
 
     <div>
-    <div class="input-group mb-3" v-for="item in budgetItems" v-bind:key="item">
-      <input type="text" class="form-control" placeholder="Тип покупки" aria-label="Тип покупки" aria-describedby="basic-addon2" ref="type" v-bind:value="item[0]">
-      <input type="number" class="form-control" placeholder="Ограничение количества" aria-label="Ограничение количества" aria-describedby="basic-addon2" ref="limit" v-bind:value="item[1]">
+    <div class="input-group mb-3" v-for="item in budgetItems" v-bind:key="item['id']">
+      <input type="text" class="form-control" placeholder="Тип покупки" aria-label="Тип покупки" aria-describedby="basic-addon2" ref="type" v-bind:value="item['title']">
+      <input type="number" class="form-control" placeholder="Ограничение количества" aria-label="Ограничение количества" aria-describedby="basic-addon2" ref="limit" v-bind:value="item['budget']">
     </div>
 
     <button type="button" class="btn btn-secondary" @click="addToItems">
@@ -69,7 +66,7 @@ export default {
   },
   mounted() {
     console.log(this.budgetItems);
-    axios.get("/returnBudgetOfUser").then(result => {
+    axios.get("/returnUserInfo").then(result => {
       this.budgetItems = result.data["budgetItems"]
       this.totalBudget = result.data["totalBudget"]
       this.countAmount = result.data["budgetItems"].length;

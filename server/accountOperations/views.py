@@ -14,8 +14,8 @@ from accountOperations.models import Profile
 from django.contrib.auth import logout
 
 from budget.models import budgetPlan
-from documents.models import Product, File, Tag
 from errorPages.views import onlyForStaffChecker, onlyForLogginedChecker
+from family.models import Family
 
 
 @csrf_exempt
@@ -82,6 +82,7 @@ def checkifLogged(request):
 @api_view(['GET', 'POST'])
 @onlyForLogginedChecker
 def returnUserInformation(request):
+        budget = Profile.objects.get(user=request.user).budget
         return JsonResponse({
             'userStatus': "isStaff" if request.user.is_staff else "isLoginned" if request.user.is_authenticated else "isNotLoggined",
             'username': request.user.username,
@@ -90,6 +91,10 @@ def returnUserInformation(request):
             'email': request.user.email,
             'expire_date': Profile.objects.get(user=request.user).expire_date,
             'firstConnection_date': Profile.objects.get(user=request.user).firstConnection_date,
+            "totalBudget": budget.totalBudget,
+            "budgetItems": [{"id": x.id, "title": x.title, "budget": x.budget} for x in budget.budgetItem.all()],
+            "families": [{"id": x.id, "title": x.title} for x in Family.objects.filter(users=request.user)]
+
         })
 
 
@@ -153,7 +158,6 @@ def loginUser(request):
 @csrf_exempt
 @api_view(['GET', 'POST'])
 def getUserProductInfromation(request):
-    body = request.GET
     try:
         budget = Profile.objects.get(user=request.user).budget
         response = JsonResponse({

@@ -1,14 +1,11 @@
 import json
-
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-
-from accountOperations.models import Profile
 from budget.models import budgetPlan
-from documents.models import Family, Product
+from documents.models import Family
 from errorPages.views import onlyForLogginedChecker
+from product.models import Product
 
 
 @onlyForLogginedChecker
@@ -36,11 +33,11 @@ def getProductsInfoByFamily(request):
     body = request.GET
     listOfTags = dict.fromkeys(
         set([x.tags.all()[0].tag for x in Product.objects.filter(family=Family.objects.get(id=body["familyID"]))]))
-    for object in Product.objects.filter(family=Family.objects.get(id=body["familyID"])):
+    for product in Product.objects.filter(family=Family.objects.get(id=body["familyID"])):
         try:
-            listOfTags[object.tags.all()[0].tag] = listOfTags[object.tags.all()[0].tag] + object.price
+            listOfTags[product.tags.all()[0].tag] = listOfTags[product.tags.all()[0].tag] + product.price
         except:
-            listOfTags[object.tags.all()[0].tag] = 0 + object.price
+            listOfTags[product.tags.all()[0].tag] = 0 + product.price
     response = JsonResponse({
         "result": listOfTags,
         "keys": list(listOfTags.keys()),
@@ -54,7 +51,7 @@ def getProductsInfoByFamily(request):
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
-def getListOfFamilyDocuments(request):
+def getListOfFamilyProducts(request):
     body = request.GET
     response = JsonResponse({
         "result": "GotOut",
@@ -82,32 +79,6 @@ def returnBudgetOfFamily(request):
             "result": "error"
         })
         response.status_code = 500
-    return response
-
-
-@onlyForLogginedChecker
-def budgetEdit(request):
-    body = request.GET
-    try:
-        budget = Family.objects.get(id=body["familyID"])
-        budget.totalBudget = body["totalBudget"]
-        budget.budgetItem.all().delete()
-        for item in body.getlist("budgetList[]"):
-            item = json.loads(''.join(item))
-            budgetItemObject = budget.budgetItem.get_or_create(title=item["Type"])[0]
-            budgetItemObject.budget = item["Limit"]
-            budgetItemObject.save()
-            budget.budgetItem.add(budgetItemObject)
-        budget.save()
-        response = JsonResponse({
-            "result": "successfully"
-        })
-        response.status_code = 200
-    except:
-        response = JsonResponse({
-            "result": "error"
-        })
-        response.status_code = 200
     return response
 
 

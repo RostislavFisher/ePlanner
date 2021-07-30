@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'product',
     'family',
     'tag',
+    'documents',
 ]
 
 MIDDLEWARE = [

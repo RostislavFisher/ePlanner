@@ -1,20 +1,74 @@
 from datetime import datetime
 
-from django.http import JsonResponse
+from django.conf import settings
+from django.http import JsonResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from accountOperations.models import Profile
-from file.models import File
-from errorPages.views import onlyForLogginedChecker, onlyForStaffChecker
+from documents.models import Tag, File
+
+from errorPages.views import onlyForStaffChecker, onlyForLogginedChecker
 from product.models import Product
-from tag.models import Tag
 
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
 @onlyForStaffChecker
-def deleteProduct(request):
+def createTags(request):
+    body = request.data
+    print(body)
+    for x in body["params"]["tags"]:
+        Tag.init(tag=x)
+    response = JsonResponse({
+        "result": "OK",
+    })
+    response.status_code = 200
+    return response
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+def getListOfDocuments(request):
+    body = request.data["params"]
+    response = JsonResponse({
+        "dataf": body["amountOfDocuments"] if body["amountOfDocuments"] is not None else -1,
+        # "tags": [for tag in Profile.objects.get(user=request.user)],
+        "result": "GotOut",
+        "data": [{"id": i.id, "textTitle": i.textTitle, "text": i.text, "price": i.price,
+                  "images": [j.file.url for j in i.files.filter()], "tags" : [tag.tag for tag in i.tags.all()]} for i in
+                 Profile.objects.get(user=request.user).products.all()[::-1][:body["amountOfDocuments"] if
+                 body["amountOfDocuments"] is not None else -1]],
+    })
+    response.status_code = 200
+    return response
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+@onlyForStaffChecker
+def getListOfTags(request):
+    response = JsonResponse({
+        "result": "GotOut",
+        "data": [{"id": x.id, "tag": x.tag} for x in Tag.objects.filter()[::-1]],
+    })
+    response.status_code = 200
+    return response
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+@onlyForLogginedChecker
+def downloadFile(request, path):
+    fileObject = open("media/" + path, 'rb')
+    response = FileResponse(fileObject)
+    return response
+
+
+@csrf_exempt
+@api_view(['GET', 'POST'])
+@onlyForStaffChecker
+def deleteDocument(request):
     body = request.data["params"]
     Product.remove(id=body["id"])
     response = JsonResponse({
@@ -39,7 +93,7 @@ def deleteTag(request, id):
 @csrf_exempt
 @api_view(['GET', 'POST'])
 @onlyForLogginedChecker
-def createProduct(request):
+def createDocument(request):
     body = request.data
     Profile.objects.get(user=request.user).products.add(
     Product.init(textTitle=body["Title"], text=body["Text"], dateAdded=datetime.now(),
@@ -58,6 +112,7 @@ def createProduct(request):
 @api_view(['GET', 'POST'])
 def search(request):
     body = request.data["params"]
+    print(body)
     response = JsonResponse({
         "result": "GotOut",
         "data": [{"id": x.id, "textTitle": x.textTitle, "text": x.text} for x in
@@ -70,7 +125,7 @@ def search(request):
 @csrf_exempt
 @api_view(['GET', 'POST'])
 @onlyForLogginedChecker
-def getInformationOfProductByID(request, num):
+def getInformationOfDocumentByID(request, num):
     response = JsonResponse({
         "result": "GotOut",
         "data": {"textTitle": Product.objects.get(id=num).textTitle, "text": Product.objects.get(id=num).text,
@@ -98,22 +153,6 @@ def getProductsInfo(request):
         "values": list(listOfTags.values()),
         "budget": {"roof": Profile.objects.get(user=request.user).budget.totalBudget,
                    "current": sum(list(listOfTags.values()))}
-    })
-    response.status_code = 200
-    return response
-
-
-@csrf_exempt
-@api_view(['GET', 'POST'])
-def getListOfProducts(request):
-    body = request.data["params"]
-    response = JsonResponse({
-        "dataf": body["amountOfDocuments"] if body["amountOfDocuments"] is not None else -1,
-        "result": "GotOut",
-        "data": [{"id": i.id, "textTitle": i.textTitle, "text": i.text, "price": i.price,
-                  "images": [j.file.url for j in i.files.filter()], "tags" : [tag.tag for tag in i.tags.all()]} for i in
-                 Profile.objects.get(user=request.user).products.all()[::-1][:body["amountOfDocuments"] if
-                 body["amountOfDocuments"] is not None else -1]],
     })
     response.status_code = 200
     return response

@@ -8,6 +8,7 @@ import budgetProducts from "../views/budgetProducts";
 import budgetCreateProduct from "../views/budgetCreateProduct";
 import createFamily from "../views/createFamily";
 import budgetFamilyProducts from "../views/budgetFamilyProducts";
+import familyBudgetSettings from "../views/familyBudgetSettings";
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,10 @@ const routes = [
           {
             path: 'budgetFamilyProducts',
             component: budgetFamilyProducts
+          },
+          {
+            path: 'familyBudgetSettings',
+            component: familyBudgetSettings
           },
         ]
       },

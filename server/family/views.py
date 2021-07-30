@@ -42,7 +42,11 @@ def getProductsInfoByFamily(request):
         "keys": list(listOfTags.keys()),
         "values": list(listOfTags.values()),
         "budget": {"roof": Family.objects.get(id=body["familyID"]).budget.totalBudget,
-                   "current": sum(list(listOfTags.values()))}
+                   "current": sum(list(listOfTags.values()))},
+        "data": [{"id": i.id, "textTitle": i.textTitle, "text": i.text, "price": i.price,
+                  "images": [j.file.url for j in i.files.filter()], "tags": [tag.tag for tag in i.tags.all()]} for i in
+                 Product.objects.filter(family=Family.objects.get(id=body["familyID"]))]
+
     })
     response.status_code = 200
     return response
@@ -70,7 +74,8 @@ def returnBudgetOfFamily(request):
         response = JsonResponse({
             "result": "successfully",
             "totalBudget": budget.totalBudget,
-            "budgetItems": [[x.title, x.budget] for x in budget.budgetItem.all()]
+            "budgetItems": [{"id": x.id, "title": x.title, "budget": x.budget} for x in budget.budgetItem.all()],
+
         })
         response.status_code = 200
     except:
@@ -90,8 +95,9 @@ def budgetFamilyEdit(request):
         budget.budgetItem.all().delete()
         for item in body.getlist("budgetList[]"):
             item = json.loads(''.join(item))
-            budgetItemObject = budget.budgetItem.get_or_create(title=item["Type"])[0]
-            budgetItemObject.budget = item["Limit"]
+            print(item["title"], item["budget"])
+            budgetItemObject = budget.budgetItem.get_or_create(title=item["title"])[0]
+            budgetItemObject.budget = item["budget"]
             budgetItemObject.save()
             budget.budgetItem.add(budgetItemObject)
         budget.save()

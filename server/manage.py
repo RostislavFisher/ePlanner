@@ -27,6 +27,8 @@ python manage.py makemigrations file
 python manage.py makemigrations product
 python manage.py makemigrations accountOperations
 python manage.py makemigrations family
+python manage.py makemigrations documents
+python manage.py makemigrations tag
 python manage.py makemigrations
 python manage.py migrate budget
 python manage.py migrate classification
@@ -34,6 +36,8 @@ python manage.py migrate file
 python manage.py migrate product
 python manage.py migrate accountOperations
 python manage.py migrate family
+python manage.py migrate documents
+python manage.py migrate tag
 python manage.py migrate
 
 """

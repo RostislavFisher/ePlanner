@@ -20,8 +20,8 @@ from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from budget.views import budgetEdit
-from accountOperations.views import checkifLogged, loginUser, returnUserInformation, logOut_view, \
-     getUserListInformation, deleteAccount,  checkIfHasItExpired
+from accountOperations.views import checkifLogged, loginUser, logOut_view, \
+    getUserListInformation, deleteAccount, checkIfHasItExpired, returnUserInformation
 from accountOperations.views import register
 from file.views import downloadFile
 from family.views import createFamily, getProductsInfoByFamily, getListOfFamilyProducts, returnBudgetOfFamily, \

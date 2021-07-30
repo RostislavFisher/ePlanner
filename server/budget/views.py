@@ -13,12 +13,12 @@ def budgetEdit(request):
     body = request.GET
     try:
         budget = Profile.objects.get(user=request.user).budget
-        budget.totalBudget = body["totalBudget"]
+        budget.totalBudget = body["roof"]
         budget.budgetItem.all().delete()
-        for item in body.getlist("budgetList[]"):
+        for item in body.getlist("budgetItems[]"):
             item = json.loads(''.join(item))
-            budgetItemObject = budget.budgetItem.get_or_create(title=item["Type"])[0]
-            budgetItemObject.budget = item["Limit"]
+            budgetItemObject = budget.budgetItem.get_or_create(title=item["title"])[0]
+            budgetItemObject.budget = item["budget"]
             budgetItemObject.save()
             budget.budgetItem.add(budgetItemObject)
         budget.save()

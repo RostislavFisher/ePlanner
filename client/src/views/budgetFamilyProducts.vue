@@ -10,11 +10,6 @@
       </div>
       <div class="float-sm-right" style="max-width: 500px; width: 60%; margin-bottom: 50px;">
 
-        <form @submit.prevent="findDocumentByName">
-          <input class="form-control mr-sm-2" type="text" placeholder="Пошук" aria-label="Пошук" name="search" id="search" v-model="search">
-          <button class="btn btn-primary">Шукати</button>
-        </form>
-
       </div>
       <div class="container">
 
@@ -59,35 +54,21 @@ export default {
     }
   },
   mounted() {
-    this.getListOfDocuments();
-    this.getDataforChart();
+    this.getDataForChartAndSettings();
   },
   methods: {
-    getDataforChart(){
-      axios.post('getProductsInfo').then((response) => {
-        this.chartKeys = response.data["keys"];
-        this.chartValue = response.data["values"];
 
-        this.roof = response.data["budget"]["roof"];
-        this.current = response.data["budget"]["current"];
-      });
-    },
-    getListOfDocuments(){
-      axios.post('getListOfDocuments', {
+    getDataForChartAndSettings(){
+      axios.get('getProductsInfoByFamily', {
         params: {
-          amountOfDocuments : 5
+          familyID: this.$route.params.familyID
         }
       }).then((response) => {
+        this.chartKeys = response.data["keys"];
+        this.chartValue = response.data["values"];
         this.listOfProducts = response.data["data"];
-      });
-
-    },
-    findDocumentByName () {
-      axios.post('search', {
-        params: {
-          search: this.search,
-        }}).then((response) => {
-        this.listOfProducts = response.data["data"];
+        this.roof = response.data["budget"]["roof"];
+        this.current = response.data["budget"]["current"];
       });
     }
   },

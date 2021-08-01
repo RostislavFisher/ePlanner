@@ -4,8 +4,8 @@
       <h2 style="margin-bottom: 100px;">Добавление товара</h2>
       <form @submit="submit" ref="formHTML" >
 
-      <div class="container">
-        <div class="projectCard">
+        <div class="container">
+          <div class="projectCard">
             <div>
               <input type="file" name="file" id="file" ref="file" @change="onFileChange" />
               <img class="card-img-top" v-if="url" :src="url" style="height:250px;  object-fit:cover; filter: ">
@@ -24,7 +24,7 @@
             <div>
               <div>
                 <select id="classification" class="form-control" v-model="tags" >
-                    <option v-for="budgetItem in budgetItems" v-bind:key="budgetItem" :value="budgetItem['title']">{{ budgetItem['title'] }}</option>
+                  <option v-for="budgetItem in budgetItems" v-bind:key="budgetItem" :value="budgetItem['title']">{{ budgetItem['title'] }}</option>
                 </select>
               </div>
               <div>
@@ -32,13 +32,13 @@
                   <option selected value="">
                     Не привязывать к семье
                   </option>
-                    <option v-for="family in this.families" v-bind:key="family" :value="family.id">{{ family.title }}</option>
+                  <option v-for="family in this.families" v-bind:key="family" :value="family.id">{{ family.title }}</option>
                 </select>
               </div>
             </div>
-        </div>
+          </div>
 
-      </div>
+        </div>
         <button type="submit" class="btn btn-lg btn-primary btn-block" style="margin-top: 30px;">Создать документ</button>
 
       </form>
@@ -72,24 +72,24 @@ export default {
     this.getUserData();
   },
   methods: {
-      getUserData(){
-        axios.post('returnUserInformation').then(result =>
-        {
-            this.families = result.data["families"];
-            this.budgetItems = result.data["budgetItems"];
-            console.log(this.families);
-            console.log(this.budgetItems);
-        });
-      },
-      onFileChange(e) {
-        const file = e.target.files[0];
-        this.url = URL.createObjectURL(file);
+    getUserData(){
+      axios.post('returnUserInformation').then(result =>
+      {
+        this.families = result.data["families"];
+        this.budgetItems = result.data["budgetItems"];
+        console.log(this.families);
+        console.log(this.budgetItems);
+      });
+    },
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.url = URL.createObjectURL(file);
 
-        let fileForm = new FormData();
-        fileForm.append('file', file, file.name)
-        this.fileForm = fileForm;
+      let fileForm = new FormData();
+      fileForm.append('file', file, file.name)
+      this.fileForm = fileForm;
 
-      },
+    },
     submit: async function (e) {
       e.preventDefault();
 
